@@ -5,9 +5,13 @@ Cancer is the leading cause of death in the world and is the second most common 
 There are numerous research articles about disparities in cancer treatment. According to an article by the National Cancer Institute[^1], the significant factors in healthcare disparities are social, environmental, and economic in nature. Thus, a research article by O'Keefe, Meltzer and Bethea[^2] focuses on the interplay between race and the socioeconomic factor, establishing that these two components interact and are not independent of one another. Lastly, the article "Global Health Equity: Cancer Care Outcome Disparities in High-, Middle-, and Low-Income Countries
 "[^3] shows that economic status plays a role in cancer healthcare equity across the world, not only in the U.S.
 
-We will begin by working with a dataset created and collected by the CDC’s National Center for. We accessed this dataset via the CDC’s webpage and consider it a highly valid source. For the economic dataset, we will be exploring a dataset collected by the Bureau of Labor Statistics (BLS) Local Area Unemployment Statistics (LAUS) program.
+We will begin by working with a dataset created and collected by the CDC. We accessed this dataset via the CDC’s webpage and consider it a highly valid source. For the dataset that provides information about socioeconomic factors, we will be exploring a dataset collected by the Bureau of Labor Statistics (BLS) Local Area Unemployment Statistics (LAUS) program.
 
-Healthcare is a universal issue, as it is a necessity to be able to survive in the modern world. Therefore, healthcare issues involve everyone as a stakeholder. This dataset can be used to show how underserved populations interact with healthcare and how much access they have to healthcare. Getting more specific, This dataset would be a great resource for those looking to see trends within healthcare accessibility of cancer treatment for those in underserved communities.
+<a href="https://gis.cdc.gov/Cancer/USCS/DataViz.html">CDC Cancer Statistics Data</a>
+
+<a href="https://www.ers.usda.gov/data-products/county-level-data-sets/download-data/">USDA county level dataset </a>
+
+Healthcare is a universal issue, as it is a necessity to be able to survive in the modern world. Therefore, healthcare issues involve everyone as a stakeholder. This dataset can be used to show how underserved populations interact with healthcare and how much access they have to healthcare. To be specific, this dataset would be a great resource for those looking to see trends within healthcare accessibility of cancer treatment for those in underserved communities.
 
 ![Healthcare Value Differences](https://img.17qq.com/images/nmoopgmgmlv.jpeg)
 
