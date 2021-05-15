@@ -18,13 +18,16 @@ west_coast_deaths <- rbind(ca_deaths, or_deaths, wa_deaths) %>%
   arrange(Area, County) %>%
   select(Area, County, AgeAdjustedDeathRate, DeathCount, Population)
 
-west_coast_data <- merge(west_coast_cases, west_coast_deaths, by = c("Area", "County", "Population")) %>%
+west_coast_data <- merge(west_coast_cases, west_coast_deaths, by = c("Area", 
+                                                  "County", "Population")) %>%
   mutate(County = paste(County, state.abb[match(Area, state.name)],
                         sep = ", ")) %>%
   select(-Area)
 
-west_coast_data$AgeAdjustedDeathRate <- as.numeric(as.character(west_coast_data$AgeAdjustedDeathRate))
-west_coast_data$DeathCount <- as.numeric(as.character(west_coast_data$DeathCount))
+west_coast_data$AgeAdjustedDeathRate <- as.numeric(as.character(west_coast_data$
+                                                          AgeAdjustedDeathRate))
+west_coast_data$DeathCount <- as.numeric(as.character(west_coast_data$
+                                                        DeathCount))
 
 unemployment_income_by_county <- read_excel("data/Unemployment.xls",
                                             sheet = 1, skip = 4) %>%
@@ -36,6 +39,14 @@ unemployment_income_by_county <- read_excel("data/Unemployment.xls",
   rename(County = area_name)
 
 complete_data <- merge(west_coast_data, unemployment_income_by_county,
-                       by = "County")
+                       by = "County") %>%
+  rename(County.FullName = County)
+complete_data$County <- sapply(strsplit(as.character(
+  complete_data$County.FullName), ' County, '), "[", 1)
+complete_data$State <- sapply(strsplit(as.character(
+  complete_data$County.FullName), ' County, '), "[", 2)
+
+complete_data <- complete_data %>% select(County, State, 
+         County.FullName,Population:Med_HH_Income_Percent_of_State_Total_2019)
 
 write.csv(complete_data, "data/complete_data.csv", row.names = FALSE)
