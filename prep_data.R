@@ -23,6 +23,9 @@ west_coast_data <- merge(west_coast_cases, west_coast_deaths, by = c("Area", "Co
                         sep = ", ")) %>%
   select(-Area)
 
+west_coast_data$AgeAdjustedDeathRate <- as.numeric(as.character(west_coast_data$AgeAdjustedDeathRate))
+west_coast_data$DeathCount <- as.numeric(as.character(west_coast_data$DeathCount))
+
 unemployment_income_by_county <- read_excel("data/Unemployment.xls",
                                             sheet = 1, skip = 4) %>%
   filter(Stabr == "CA" | Stabr == "OR" | Stabr == "WA") %>%
