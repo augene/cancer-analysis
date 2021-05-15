@@ -23,3 +23,14 @@ unemployment_income_by_county <- read_excel("data/Unemployment.xls",
 
 complete_data <- merge(west_coast_data, unemployment_income_by_county,
                        by = "County")
+
+library(ggplot2)
+library(plotly)
+library(gapminder)
+
+p <- complete_data %>%
+  ggplot( aes(Median_Household_Income_2019, CaseCount, size = Population, color = County)) +
+  geom_point() +
+  theme_bw()
+
+ggplotly(p)
