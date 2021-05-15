@@ -1,12 +1,25 @@
+library("dplyr")
 library("ggplot2")
+library("ggmap")
 
 # https://eriqande.github.io/rep-res-web/lectures/making-maps-with-R.html
+
+data <- read.csv("data/complete_data.csv") %>%
+  mutate(County = tolower(County),
+         State = tolower(state.name[match(State, state.abb)])) %>%
+  rename(subregion = County, region = State)
 
 counties <- map_data("county")
 west_coast <- subset(counties, 
                      region %in% c("california", "oregon", "washington"))
 
+west_coast_base <- ggplot(data = west_coast, 
+                         mapping = aes(x = long, y = lat, group = group)) + 
+  geom_polygon(color = "black", fill = "gray") +
+  coord_fixed(1.3) + theme_nothing()
 
+map_data <- inner_join(data, counties, by = c("subregion", "region")) %>%
+  mutate(Cases_Rate = AgeAdjustedCaseRate)
 
 ditch_the_axes <- theme(
   axis.text = element_blank(),
@@ -16,22 +29,10 @@ ditch_the_axes <- theme(
   panel.grid = element_blank(),
   axis.title = element_blank()
 )
-map <- ggplot(data = west_coast) + 
-  
-  geom_polygon(aes(x = long, y = lat, group = group, color = "white"), fill = "NA", color = "black") + 
-  coord_fixed(1.3) + theme_bw() + ditch_the_axes
 
-native_map <- ggplot(state_shapes) +
-  geom_polygon(
-    mapping = aes(x = long, y = lat, group = group, fill = native_jail_pop_rate),
-    color = "black",
-    size = .1
-  ) +
-  coord_map() +
-  scale_fill_continuous(low = "white", high = "Red") +
-  labs(
-    title = "Native Jail Incarceration Rate Comparison State Map (2017)",
-    subtitle = "Per 100,000 residents age 15-64",
-    fill = "Rate"
-  ) +
-  blank_theme
+map <- west_coast_base +
+  geom_polygon(data = map_data, aes(fill = Cases_Rate),
+               color = "white") +
+  geom_polygon(color = "black", fill = NA) +
+  theme_bw() + ditch_the_axes
+map
