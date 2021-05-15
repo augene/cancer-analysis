@@ -30,9 +30,9 @@ ditch_the_axes <- theme(
   axis.title = element_blank()
 )
 
-map <- west_coast_base +
+choropleth_map <- west_coast_base +
   geom_polygon(data = map_data, aes(fill = Cases_Rate),
                color = "white") +
   geom_polygon(color = "black", fill = NA) +
   theme_bw() + ditch_the_axes
-map
+choropleth_map

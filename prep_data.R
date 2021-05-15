@@ -47,6 +47,6 @@ complete_data$State <- sapply(strsplit(as.character(
   complete_data$County.FullName), ' County, '), "[", 2)
 
 complete_data <- complete_data %>% select(County, State, 
-         County.FullName,Population:Med_HH_Income_Percent_of_State_Total_2019)
+         County.FullName, Population:Med_HH_Income_Percent_of_State_Total_2019)
 
 write.csv(complete_data, "data/complete_data.csv", row.names = FALSE)
