@@ -68,3 +68,4 @@ choropleth_map <- west_coast_base +
                color = "white") +
   geom_polygon(color = "black", fill = NA) +
   theme_bw() + ditch_the_axes
+
