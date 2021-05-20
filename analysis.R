@@ -9,10 +9,11 @@ sex_data <- read.csv("data/sex_data.csv")
 sex_dist <- ggplotly(ggplot(sex_data, aes(x = Sex, y = AgeAdjustedRate)) +
                        geom_boxplot())
 
-race_data <- read.csv("data/race_data.csv")
-race_data$AgeAdjustedRate <- as.numeric(as.character(race_data$AgeAdjustedRate))
-race_data$CaseCount <- as.numeric(as.character(race_data$CaseCount))
-race_data$Population <- as.numeric(as.character(race_data$Population))
+race_data <- read.csv("data/race_data.csv") %>%
+  filter(Sex == "Male and Female") %>%
+  mutate(AgeAdjustedRate = as.numeric(as.character(AgeAdjustedRate)),
+         CaseCount = as.numeric(as.character(CaseCount)),
+         Population = as.numeric(as.character(Population)))
 
 race_dist <- ggplotly(ggplot(race_data, aes(x = Race, y = AgeAdjustedRate)) +
                         geom_boxplot())
