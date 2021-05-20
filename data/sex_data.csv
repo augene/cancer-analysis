@@ -1,0 +1,103 @@
+"Area","CancerType","Year","Sex","Race","AgeAdjustedRate","CaseCount","Population"
+"Wyoming","All Types of Cancer",2017,"Male","All Races",451.9,1582,295328
+"Nevada","All Types of Cancer",2017,"Male","All Races",421.6,7143,1491290
+"Rhode Island","All Types of Cancer",2017,"Male","All Races",452.3,2790,513556
+"Colorado","All Types of Cancer",2017,"Male","All Races",405.5,11798,2826740
+"Georgia","All Types of Cancer",2017,"Male","All Races",524.7,27290,5066288
+"Montana","All Types of Cancer",2017,"Male","All Races",494.8,3384,530165
+"Texas","All Types of Cancer",2017,"Male","All Races",443.6,58697,14071779
+"Maryland","All Types of Cancer",2017,"Male","All Races",478.3,15607,2920753
+"Idaho","All Types of Cancer",2017,"Male","All Races",469,4524,861051
+"New Mexico","All Types of Cancer",2017,"Male","All Races",373.5,4576,1036310
+"Utah","All Types of Cancer",2017,"Male","All Races",438.9,5749,1562805
+"California","All Types of Cancer",2017,"Male","All Races",416.1,83996,19581670
+"Alaska","All Types of Cancer",2017,"Male","All Races",427.3,1532,386423
+"Oregon","All Types of Cancer",2017,"Male","All Races",435.6,10886,2055236
+"Virginia","All Types of Cancer",2017,"Male","All Races",431.9,20013,4165587
+"District of Columbia","All Types of Cancer",2017,"Male","All Races",467.1,1397,330058
+"Missouri","All Types of Cancer",2017,"Male","All Races",487.8,17232,2998664
+"Mississippi","All Types of Cancer",2017,"Male","All Races",539.9,8855,1450250
+"West Virginia","All Types of Cancer",2017,"Male","All Races",518.8,6275,899496
+"Tennessee","All Types of Cancer",2017,"Male","All Races",518.7,19751,3273107
+"Minnesota","All Types of Cancer",2017,"Male","All Races",510,16064,2772525
+"Oklahoma","All Types of Cancer",2017,"Male","All Races",463.1,9996,1948162
+"Florida","All Types of Cancer",2017,"Male","All Races",456,63561,10256331
+"Arkansas","All Types of Cancer",2017,"Male","All Races",537.6,9360,1475417
+"Kansas","All Types of Cancer",2017,"Male","All Races",490.6,7941,1450218
+"North Carolina","All Types of Cancer",2017,"Male","All Races",509.1,29017,4998321
+"South Dakota","All Types of Cancer",2017,"Male","All Races",480,2464,441021
+"Hawaii","All Types of Cancer",2017,"Male","All Races",440.3,3823,714182
+"Pennsylvania","All Types of Cancer",2017,"Male","All Races",502.1,39307,6263536
+"Kentucky","All Types of Cancer",2017,"Male","All Races",557.9,14103,2194331
+"Maine","All Types of Cancer",2017,"Male","All Races",500,4562,653722
+"South Carolina","All Types of Cancer",2017,"Male","All Races",482.6,14373,2435459
+"Alabama","All Types of Cancer",2017,"Male","All Races",514.1,14476,2359077
+"Vermont","All Types of Cancer",2017,"Male","All Races",488.7,2002,308405
+"Washington","All Types of Cancer",2017,"Male","All Races",459.1,18741,3713660
+"Ohio","All Types of Cancer",2017,"Male","All Races",496.3,33922,5716369
+"North Dakota","All Types of Cancer",2017,"Male","All Races",487.7,2018,387042
+"New Jersey","All Types of Cancer",2017,"Male","All Races",530.1,26464,4340245
+"Delaware","All Types of Cancer",2017,"Male","All Races",496.2,2914,462851
+"New Hampshire","All Types of Cancer",2017,"Male","All Races",517.9,4451,668358
+"Nebraska","All Types of Cancer",2017,"Male","All Races",514.6,5465,957256
+"New York","All Types of Cancer",2017,"Male","All Races",524.2,57125,9511225
+"Iowa","All Types of Cancer",2017,"Male","All Races",520.2,9635,1563778
+"Illinois","All Types of Cancer",2017,"Male","All Races",497.4,34535,6282051
+"Wisconsin","All Types of Cancer",2017,"Male","All Races",481.5,16715,2880390
+"Indiana","All Types of Cancer",2017,"Male","All Races",475.8,17355,3283306
+"Louisiana","All Types of Cancer",2017,"Male","All Races",548.5,13916,2281998
+"Arizona","All Types of Cancer",2017,"Male","All Races",402,16763,3504020
+"Massachusetts","All Types of Cancer",2017,"Male","All Races",477.2,18547,3331060
+"Michigan","All Types of Cancer",2017,"Male","All Races",474.3,28050,4911292
+"Connecticut","All Types of Cancer",2017,"Male","All Races",501.8,10639,1743466
+"Wyoming","All Types of Cancer",2017,"Female","All Races",377.3,1293,283606
+"Nevada","All Types of Cancer",2017,"Female","All Races",394.8,6962,1481115
+"Rhode Island","All Types of Cancer",2017,"Female","All Races",426.5,3051,542930
+"Colorado","All Types of Cancer",2017,"Female","All Races",391.5,12428,2789162
+"Georgia","All Types of Cancer",2017,"Female","All Races",415.5,25400,5346767
+"Montana","All Types of Cancer",2017,"Female","All Races",445.3,3042,522925
+"Texas","All Types of Cancer",2017,"Female","All Races",369.4,55705,14250938
+"Maryland","All Types of Cancer",2017,"Female","All Races",420.4,16128,3104138
+"Idaho","All Types of Cancer",2017,"Female","All Races",411.6,4100,857853
+"New Mexico","All Types of Cancer",2017,"Female","All Races",354.9,4685,1057085
+"Utah","All Types of Cancer",2017,"Female","All Races",365.4,5202,1540313
+"California","All Types of Cancer",2017,"Female","All Races",379.2,86788,19817679
+"Alaska","All Types of Cancer",2017,"Female","All Races",387.4,1385,353363
+"Oregon","All Types of Cancer",2017,"Female","All Races",397,10642,2091356
+"Virginia","All Types of Cancer",2017,"Female","All Races",379.3,19897,4299620
+"District of Columbia","All Types of Cancer",2017,"Female","All Races",409.1,1510,365633
+"Missouri","All Types of Cancer",2017,"Female","All Races",429.6,17147,3109948
+"Mississippi","All Types of Cancer",2017,"Female","All Races",410.7,7730,1539413
+"West Virginia","All Types of Cancer",2017,"Female","All Races",457.7,5868,917552
+"Tennessee","All Types of Cancer",2017,"Female","All Races",412.6,17872,3435687
+"Minnesota","All Types of Cancer",2017,"Female","All Races",446,15185,2795630
+"Oklahoma","All Types of Cancer",2017,"Female","All Races",412.4,9875,1984478
+"Florida","All Types of Cancer",2017,"Female","All Races",405.2,61243,10720481
+"Wisconsin","All Types of Cancer",2017,"Female","All Races",426.1,15936,2911661
+"Arkansas","All Types of Cancer",2017,"Female","All Races",422,8114,1527580
+"Kansas","All Types of Cancer",2017,"Female","All Races",423.9,7390,1460471
+"North Carolina","All Types of Cancer",2017,"Female","All Races",423.4,28020,5272479
+"South Dakota","All Types of Cancer",2017,"Female","All Races",429.9,2275,432265
+"Hawaii","All Types of Cancer",2017,"Female","All Races",408.9,3738,710021
+"Pennsylvania","All Types of Cancer",2017,"Female","All Races",453.9,40033,6526911
+"Kentucky","All Types of Cancer",2017,"Female","All Races",479,13611,2259543
+"Maine","All Types of Cancer",2017,"Female","All Races",454.1,4499,681341
+"South Carolina","All Types of Cancer",2017,"Female","All Races",399.3,13389,2585760
+"Alabama","All Types of Cancer",2017,"Female","All Races",397.4,12661,2516043
+"Vermont","All Types of Cancer",2017,"Female","All Races",432.6,1899,316120
+"Washington","All Types of Cancer",2017,"Female","All Races",421.1,18781,3711772
+"Ohio","All Types of Cancer",2017,"Female","All Races",435.1,33346,5947760
+"North Dakota","All Types of Cancer",2017,"Female","All Races",436.1,1860,368134
+"New Jersey","All Types of Cancer",2017,"Female","All Races",452,26377,4548298
+"Delaware","All Types of Cancer",2017,"Female","All Races",407.8,2703,494227
+"New Hampshire","All Types of Cancer",2017,"Female","All Races",441.2,4078,681409
+"Nebraska","All Types of Cancer",2017,"Female","All Races",441.2,5026,960319
+"New York","All Types of Cancer",2017,"Female","All Races",453.4,57882,10079494
+"Iowa","All Types of Cancer",2017,"Female","All Races",448.1,8965,1579859
+"Illinois","All Types of Cancer",2017,"Female","All Races",434,34687,6504145
+"Indiana","All Types of Cancer",2017,"Female","All Races",408.6,16963,3376776
+"Louisiana","All Types of Cancer",2017,"Female","All Races",426.4,12209,2388820
+"Arizona","All Types of Cancer",2017,"Female","All Races",355.3,15731,3544856
+"Massachusetts","All Types of Cancer",2017,"Female","All Races",425.1,19222,3532186
+"Michigan","All Types of Cancer",2017,"Female","All Races",408.3,26743,5065155
+"Connecticut","All Types of Cancer",2017,"Female","All Races",440.9,10658,1830414

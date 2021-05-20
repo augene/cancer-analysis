@@ -1,7 +1,6 @@
 ---
 title: "Exploratory Analysis"
 author: "Augene Pak, Brian Park, Joseph Altamira, Johnny Seto"
-date: "5/14/2021"
 output: html_document
 ---
 
