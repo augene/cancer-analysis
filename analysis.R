@@ -79,3 +79,11 @@ choropleth_map <- ggplotly(west_coast_base +
   theme_bw() + ditch_the_axes +
   scale_fill_continuous(name = "Age-Adjusted Incidence Rate (per 100,000 ppl)"),
   tooltip = "text")
+
+min_age_adj_rate <- county_data %>% 
+  filter(AgeAdjustedCaseRate == min(AgeAdjustedCaseRate)) %>% 
+  pull(County.FullName)
+
+max_age_adj_rate <- county_data %>% 
+  filter(AgeAdjustedCaseRate == max(AgeAdjustedCaseRate)) %>% 
+  pull(County.FullName)

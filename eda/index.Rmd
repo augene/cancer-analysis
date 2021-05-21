@@ -45,7 +45,7 @@ bubble_plot
 
 ## Age-Adjusted Rate of New Cancer VS Counties
 
-The map below displays the age-adjusted rate of new cancers. We used the map functionality within ggplot to retrieve the longitudes and longitudes for the three states we were focusing on, and we merged the geographical dataset and the original comprehensive dataset to generate a choropleth map that displays lighter colors for a greater age-adjusted case rate.
+The map below displays the age-adjusted rate of new cancers. We used the map functionality within ggplot to retrieve the longitudes and longitudes for the three states we were focusing on, and we merged the geographical dataset and the original comprehensive dataset to generate a choropleth map that displays lighter colors for a greater age-adjusted case rate. The minimum age-adjusted rate in `r min_age_adj_rate` and the maximum is in `r max_age_adj_rate`
 
 ```{r choropleth_map, echo=FALSE}
 choropleth_map
