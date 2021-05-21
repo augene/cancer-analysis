@@ -7,6 +7,7 @@
 
 # Original Data files (not processed)
 data/original
+prep_data.R
 
 # DS_Store files
 .DS_Store

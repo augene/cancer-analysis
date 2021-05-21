@@ -7,7 +7,9 @@ library("ggmap")
 # Distribution
 sex_data <- read.csv("data/sex_data.csv")
 sex_dist <- ggplotly(ggplot(sex_data, aes(x = Sex, y = AgeAdjustedRate)) +
-                       geom_boxplot())
+                       geom_boxplot() +
+                       labs(y = "Age-Adjusted Incidence Rate (per 100,000 ppl)",
+                            title = "Distribution for Sex"))
 
 race_data <- read.csv("data/race_data.csv") %>%
   filter(Sex == "Male and Female") %>%
@@ -16,7 +18,9 @@ race_data <- read.csv("data/race_data.csv") %>%
          Population = as.numeric(as.character(Population)))
 
 race_dist <- ggplotly(ggplot(race_data, aes(x = Race, y = AgeAdjustedRate)) +
-                        geom_boxplot())
+                        geom_boxplot() +
+                      labs(y = "Age-Adjusted Incidence Rate (per 100,000 ppl)",
+                             title = "Distribution for Race"))
 
 # Bubble plot
 county_data <- read.csv("data/county_data.csv")
@@ -28,7 +32,8 @@ p_case <- county_data %>%
                                "Median Household Income = ", Median_Household_Income_2019, 
                                "</br>", "Age-Adjusted Death Rate = ", AgeAdjustedDeathRate))) +
   labs(title = "Median Household Income (2019) vs. Age-Adjusted Death Rate",
-       x = "Median Household Income (2019)", y = "Age-Adjusted Death Rate") +
+       x = "Median Household Income (2019)", 
+       y = "Age-Adjusted Death Rate (per 100,000 ppl") +
   theme_bw()
 
 bubble_plot <- ggplotly(p_case, tooltip = "text")
@@ -51,8 +56,7 @@ west_coast_base <- ggplot(data = west_coast,
   geom_polygon(color = "black", fill = "gray") +
   coord_fixed(1.3) + theme_nothing()
 
-map_data <- inner_join(map_data, counties, by = c("subregion", "region")) %>%
-  mutate(Cases_Rate = AgeAdjustedCaseRate)
+map_data <- inner_join(map_data, counties, by = c("subregion", "region"))
 
 ditch_the_axes <- theme(
   axis.text = element_blank(),
@@ -63,9 +67,15 @@ ditch_the_axes <- theme(
   axis.title = element_blank()
 )
 
-choropleth_map <- west_coast_base +
-  geom_polygon(data = map_data, aes(fill = Cases_Rate),
+choropleth_map <- ggplotly(west_coast_base +
+  geom_polygon(data = map_data, aes(fill = Cases_Rate,
+                                    text = paste("County:", County.FullName,
+                                                 "<br>", 
+                                                 "Age-Adjusted Incidence Rate",
+                                                 AgeAdjustedCaseRate)),
                color = "white") +
   geom_polygon(color = "black", fill = NA) +
-  theme_bw() + ditch_the_axes
-
+  labs(title = "Age-Adjusted Incidence Rate by County") +
+  theme_bw() + ditch_the_axes +
+  scale_fill_continuous(name = "Age-Adjusted Incidence Rate (per 100,000 ppl)"),
+  tooltip = "text")
