@@ -68,7 +68,7 @@ ditch_the_axes <- theme(
 )
 
 choropleth_map <- ggplotly(west_coast_base +
-  geom_polygon(data = map_data, aes(fill = Cases_Rate,
+  geom_polygon(data = map_data, aes(fill = AgeAdjustedCaseRate,
                                     text = paste("County:", County.FullName,
                                                  "<br>",
                                                  "Age-Adjusted Incidence Rate",
