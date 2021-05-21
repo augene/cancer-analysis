@@ -26,13 +26,13 @@ race_dist <- ggplotly(ggplot(race_data, aes(x = Race, y = AgeAdjustedRate)) +
 county_data <- read.csv("data/county_data.csv")
 
 p_case <- county_data %>%
-  ggplot(aes(Median_Household_Income_2019, AgeAdjustedDeathRate, 
+  ggplot(aes(Median_Household_Income_2019, AgeAdjustedDeathRate,
              size = Population, color = State)) +
-  geom_point(aes(text = paste0("County = ", County.FullName, "</br></br>", 
-                               "Median Household Income = ", Median_Household_Income_2019, 
-                               "</br>", "Age-Adjusted Death Rate = ", AgeAdjustedDeathRate))) +
+  geom_point(aes(text = paste0("County = ", County.FullName, "</br></br>",
+                 "Median Household Income = ", Median_Household_Income_2019,
+               "</br>", "Age-Adjusted Death Rate = ", AgeAdjustedDeathRate))) +
   labs(title = "Median Household Income (2019) vs. Age-Adjusted Death Rate",
-       x = "Median Household Income (2019)", 
+       x = "Median Household Income (2019)",
        y = "Age-Adjusted Death Rate (per 100,000 ppl") +
   theme_bw()
 
@@ -48,11 +48,11 @@ map_data <- read.csv("data/county_data.csv") %>%
   rename(subregion = County, region = State)
 
 counties <- map_data("county")
-west_coast <- subset(counties, 
+west_coast <- subset(counties,
                      region %in% c("california", "oregon", "washington"))
 
-west_coast_base <- ggplot(data = west_coast, 
-                          mapping = aes(x = long, y = lat, group = group)) + 
+west_coast_base <- ggplot(data = west_coast,
+                          mapping = aes(x = long, y = lat, group = group)) +
   geom_polygon(color = "black", fill = "gray") +
   coord_fixed(1.3) + theme_nothing()
 
@@ -70,16 +70,12 @@ ditch_the_axes <- theme(
 choropleth_map <- ggplotly(west_coast_base +
   geom_polygon(data = map_data, aes(fill = Cases_Rate,
                                     text = paste("County:", County.FullName,
-                                                 "<br>", 
+                                                 "<br>",
                                                  "Age-Adjusted Incidence Rate",
                                                  AgeAdjustedCaseRate)),
                color = "white") +
   geom_polygon(color = "black", fill = NA) +
-<<<<<<< HEAD
-  theme_bw() + ditch_the_axes
-=======
   labs(title = "Age-Adjusted Incidence Rate by County") +
   theme_bw() + ditch_the_axes +
   scale_fill_continuous(name = "Age-Adjusted Incidence Rate (per 100,000 ppl)"),
   tooltip = "text")
->>>>>>> 188604ce5404a4029b6ac33c3322f4ab49a4f40b
