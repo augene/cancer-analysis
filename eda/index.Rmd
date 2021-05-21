@@ -16,13 +16,18 @@ For our exploratory analysis, we used datasets from the Center for Disease Contr
 
 ### Distribution of Variables
 
-The Box plot below shows the age adjusted rate of new cancer cases based on sex/gender of a person. The box plot takes into account the data of all three of the west coast states that our group will be analyzing. At first glance, it is obvious that there seems to be a lot more cases within the male population than the female population. The q1 difference between male and female is about 53 cases per 100,000 people. The q3 difference is about 77 cases per 100,000 people. It seems that the body 
+## Age-Adjusted Rates of New Cases vs Sex in 2017
+
+The Box plot below shows the age adjusted rate of new cancer cases based on sex/gender of a person. The box plot takes into account the data of all three of the west coast states that our group will be analyzing. At first glance, it is obvious that there seems to be a lot more cases within the male population than the female population. The q1 difference between male and female is about 53 cases per 100,000 people. The q3 difference is about 77 cases per 100,000 people. The body of the box plot obviously shows a huge disparity. In every aspect, at least in the west coast, it seems that males are more likely to be diagnosed than women. 
 
 ```{r sex_dist}
 sex_dist
 
 ```
 
+## Age-Adjusted Rates of New Cases vs Race in 2017
+
+This second box plot below shows the age adjusted rates of new cases between different races. The most obscure part of this graph is the fact that the body of the plot for Native Americans seem to be the largest of any group. Though it does not seem to effect the 'all races' plot too much, leading one to think that the sample size seem to be smaller than the rest. The 'all races plot seem to correlate the most with African American and white Americans the most. This makes sense as those are the majority groups within the US. AAPI seems to have the lowest average and lowest minimum as well. Hispanics seem to hold thier own between the two majority groups and the AAPI group. 
 
 ```{r race_dist}
 race_dist
