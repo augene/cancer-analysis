@@ -23,7 +23,7 @@ race_dist <- ggplotly(ggplot(race_data, aes(x = Race, y = AgeAdjustedRate)) +
                              title = "Distribution for Race"))
 
 # Bubble plot
-county_data <- read.csv("data/county_data.csv")
+county_data <- read.csv("data/county_data_wc.csv")
 
 p_case <- county_data %>%
   ggplot(aes(Median_Household_Income_2019, AgeAdjustedDeathRate,
@@ -42,7 +42,7 @@ bubble_plot <- ggplotly(p_case, tooltip = "text")
 
 # https://eriqande.github.io/rep-res-web/lectures/making-maps-with-R.html
 
-map_data <- read.csv("data/county_data.csv") %>%
+map_data <- read.csv("data/county_data_wc.csv") %>%
   mutate(County = tolower(County),
          State = tolower(state.name[match(State, state.abb)])) %>%
   rename(subregion = County, region = State)
@@ -71,7 +71,7 @@ choropleth_map <- ggplotly(west_coast_base +
   geom_polygon(data = map_data, aes(fill = AgeAdjustedCaseRate,
                                     text = paste("County:", County.FullName,
                                                  "<br>",
-                                                 "Age-Adjusted Incidence Rate",
+                                                "Age-Adjusted Incidence Rate: ",
                                                  AgeAdjustedCaseRate)),
                color = "white") +
   geom_polygon(color = "black", fill = NA) +
@@ -80,10 +80,10 @@ choropleth_map <- ggplotly(west_coast_base +
   scale_fill_continuous(name = "Age-Adjusted Incidence Rate (per 100,000 ppl)"),
   tooltip = "text")
 
-min_age_adj_rate <- county_data %>% 
-  filter(AgeAdjustedCaseRate == min(AgeAdjustedCaseRate)) %>% 
+min_age_adj_rate <- county_data %>%
+  filter(AgeAdjustedCaseRate == min(AgeAdjustedCaseRate)) %>%
   pull(County.FullName)
 
-max_age_adj_rate <- county_data %>% 
-  filter(AgeAdjustedCaseRate == max(AgeAdjustedCaseRate)) %>% 
+max_age_adj_rate <- county_data %>%
+  filter(AgeAdjustedCaseRate == max(AgeAdjustedCaseRate)) %>%
   pull(County.FullName)

@@ -1,6 +1,7 @@
 library("dplyr")
 library("readxl")
 library("tidyr")
+library("stringr")
 
 ca_cases <- read.csv("data/original/california_new_cancer.csv", quote = "\'")
 or_cases <- read.csv("data/original/oregon_new_cancer.csv", quote = "\'")
@@ -31,8 +32,7 @@ west_coast_data$DeathCount <- as.numeric(as.character(west_coast_data$
                                                         DeathCount))
 
 unemployment_income_by_county <- read_excel("data/original/Unemployment.xls",
-                                            sheet = 1, skip = 4
-) %>%
+                                            sheet = 1, skip = 4) %>%
   filter(Stabr == "CA" | Stabr == "OR" | Stabr == "WA") %>%
   filter(grepl(",", area_name, fixed = TRUE)) %>%
   select(
@@ -42,21 +42,21 @@ unemployment_income_by_county <- read_excel("data/original/Unemployment.xls",
   ) %>%
   rename(County = area_name)
 
-county_data <- merge(west_coast_data, unemployment_income_by_county,
+county_data_wc <- merge(west_coast_data, unemployment_income_by_county,
                      by = "County") %>%
   rename(County.FullName = County)
 
-county_data$County <- sapply(strsplit(as.character(
+county_data_wc$County <- sapply(strsplit(as.character(
   county_data$County.FullName), " County, "), "[", 1)
-county_data$State <- sapply(strsplit(as.character(
-  county_data$County.FullName), " County, "), "[", 2)
+county_data_wc$State <- sapply(strsplit(as.character(
+  county_data_wc$County.FullName), " County, "), "[", 2)
 
-county_data <- county_data %>% select(
+county_data_wc <- county_data_wc %>% select(
   County, State,
   County.FullName, Population:Med_HH_Income_Percent_of_State_Total_2019
 )
 
-write.csv(county_data, "data/county_data.csv", row.names = FALSE)
+write.csv(county_data_wc, "data/county_data_wc.csv", row.names = FALSE)
 
 # Merging male and female data
 male_incidence <- read.csv("data/original/male_incidence_2017.csv", quote = "\'")
