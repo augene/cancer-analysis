@@ -1,0 +1,13 @@
+name: cancer-analysis
+title: cancer-analysis
+username:
+account: augene
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4215032
+bundleId: 4665907
+url: https://augene.shinyapps.io/cancer-analysis/
+when: 1622577147.7039
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|analysis.R|LICENSE|prep_data.R|prep_data2.R|README.md|workspace.code-workspace|eda/index.html|eda/index.Rmd|original data

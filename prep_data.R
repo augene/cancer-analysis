@@ -1,92 +1,103 @@
 library("dplyr")
 library("readxl")
-library("tidyr")
 library("stringr")
+library("tidyr")
 
-ca_cases <- read.csv("data/original/california_new_cancer.csv", quote = "\'")
-or_cases <- read.csv("data/original/oregon_new_cancer.csv", quote = "\'")
-wa_cases <- read.csv("data/original/washington_new_cancer.csv", quote = "\'")
-west_coast_cases <- rbind(ca_cases, or_cases, wa_cases) %>%
-  rename(AgeAdjustedCaseRate = AgeAdjustedRate) %>%
-  arrange(Area, County) %>%
-  select(Area, County, AgeAdjustedCaseRate, CaseCount, Population)
-
-ca_deaths <- read.csv("data/original/california_new_deaths.csv", quote = "\'")
-or_deaths <- read.csv("data/original/oregon_new_deaths.csv", quote = "\'")
-wa_deaths <- read.csv("data/original/washington_new_deaths.csv", quote = "\'")
-west_coast_deaths <- rbind(ca_deaths, or_deaths, wa_deaths) %>%
-  rename(AgeAdjustedDeathRate = AgeAdjustedRate) %>%
-  arrange(Area, County) %>%
-  select(Area, County, AgeAdjustedDeathRate, DeathCount, Population)
-
-west_coast_data <- merge(west_coast_cases, west_coast_deaths, by = c(
-  "Area",
-  "County", "Population")) %>%
-  mutate(County = paste(County, state.abb[match(Area, state.name)],
-                        sep = ", ")) %>%
-  select(-Area)
-
-west_coast_data$AgeAdjustedDeathRate <- as.numeric(as.character(west_coast_data$
-                                                          AgeAdjustedDeathRate))
-west_coast_data$DeathCount <- as.numeric(as.character(west_coast_data$
-                                                        DeathCount))
-
-unemployment_income_by_county <- read_excel("data/original/Unemployment.xls",
-                                            sheet = 1, skip = 4) %>%
-  filter(Stabr == "CA" | Stabr == "OR" | Stabr == "WA") %>%
-  filter(grepl(",", area_name, fixed = TRUE)) %>%
+### State
+state <- read.delim("data/original/USCS-1999-2017-ASCII/BYAREA.txt",
+  header = TRUE, sep = "|"
+) %>%
   select(
-    area_name, Civilian_labor_force_2017:Unemployment_rate_2017,
-    Median_Household_Income_2019,
-    Med_HH_Income_Percent_of_State_Total_2019
-  ) %>%
-  rename(County = area_name)
+    AREA, AGE_ADJUSTED_RATE, CRUDE_RATE, EVENT_TYPE, RACE, SEX, SITE, YEAR,
+    COUNT, POPULATION
+  )
 
-county_data_wc <- merge(west_coast_data, unemployment_income_by_county,
-                     by = "County") %>%
-  rename(County.FullName = County)
+state$AGE_ADJUSTED_RATE <- as.numeric(as.character(state$AGE_ADJUSTED_RATE))
+state$CRUDE_RATE <- as.numeric(as.character(state$CRUDE_RATE))
+state$COUNT <- as.numeric(as.character(state$COUNT))
+state$POPULATION <- as.numeric(as.character(state$POPULATION))
+state$AREA[state$AREA == "United States (comparable to ICD-O-2)"] <-
+  "United States"
 
-county_data_wc$County <- sapply(strsplit(as.character(
-  county_data$County.FullName), " County, "), "[", 1)
-county_data_wc$State <- sapply(strsplit(as.character(
-  county_data_wc$County.FullName), " County, "), "[", 2)
+write.csv(state, "data/state.csv", row.names = FALSE)
 
-county_data_wc <- county_data_wc %>% select(
-  County, State,
-  County.FullName, Population:Med_HH_Income_Percent_of_State_Total_2019
+### County
+county <- read.delim("data/original/USCS-1999-2017-ASCII/BYAREA_COUNTY.txt",
+  header = TRUE, sep = "|"
+) %>%
+  select(
+    STATE, AREA, AGE_ADJUSTED_RATE, CRUDE_RATE, EVENT_TYPE, RACE, SEX,
+    SITE, YEAR, COUNT, POPULATION
+  )
+
+county$AREA <- str_match(county$AREA, ":\\s*(.*?)\\s*\\(")[, 2]
+county$AGE_ADJUSTED_RATE <- as.numeric(as.character(county$AGE_ADJUSTED_RATE))
+county$CRUDE_RATE <- as.numeric(as.character(county$CRUDE_RATE))
+county$COUNT <- as.numeric(as.character(county$COUNT))
+county$POPULATION <- as.numeric(as.character(county$POPULATION))
+
+write.csv(county, "data/county.csv", row.names = FALSE)
+
+### Poverty
+poverty <- read_excel("data/original/PovertyEstimates.xls", sheet = 1,
+                      skip = 4) %>%
+  select(Stabr, Area_name, PCTPOVALL_2019)
+
+write.csv(poverty, "data/poverty.csv", row.names = FALSE)
+
+# Poverty + County
+county_poverty <- county %>%
+  drop_na() %>%
+  filter(RACE == "All Races" & SEX == "Male and Female" &
+    SITE == "All Cancer Sites Combined") %>%
+  select(STATE, AREA, AGE_ADJUSTED_RATE, COUNT, POPULATION, EVENT_TYPE) %>%
+  merge(poverty %>%
+  filter(Area_name %in% state.name == FALSE & Area_name != "United States") %>%
+          rename(STATE = Stabr, AREA = Area_name, POVERTY_PCT = PCTPOVALL_2019),
+        by = c("STATE", "AREA"))
+
+write.csv(county_poverty, "data/county_poverty.csv", row.names = FALSE)
+
+# Poverty + State
+state_poverty <- poverty %>%
+  select(Area_name, PCTPOVALL_2019) %>%
+  filter(Area_name %in% state.name == TRUE | Area_name == "United States") %>%
+  rename(AREA = Area_name, POVERTY_PCT = PCTPOVALL_2019)
+
+state_poverty <- merge(state_poverty, state %>%
+                  filter(RACE == "All Races" & SEX == "Male and Female" &
+                         SITE == "All Cancer Sites Combined" & YEAR == 2017) %>%
+                select(AREA, AGE_ADJUSTED_RATE, COUNT, POPULATION, EVENT_TYPE),
+  by = c("AREA")
 )
 
-write.csv(county_data_wc, "data/county_data_wc.csv", row.names = FALSE)
-
-# Merging male and female data
-male_incidence <- read.csv("data/original/male_incidence_2017.csv", quote = "\'")
-female_incidence <- read.csv("data/original/female_incidence_2017.csv", quote = "\'")
-sex_data <- rbind(male_incidence, female_incidence)
-
-write.csv(sex_data, "data/sex_data.csv", row.names = FALSE)
-
-# Merging all sex and race data
-race_data <- rbind(
-  read.csv("data/original/allraces_allsexes_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/allraces_male_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/allraces_female_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/white_allsexes_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/white_male_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/white_female_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/black_allsexes_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/black_male_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/black_female_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/hispanic_allsexes_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/hispanic_male_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/hispanic_female_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/aapi_allsexes_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/aapi_male_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/aapi_female_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/aian_allsexes_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/aian_male_incidence_2017.csv", quote = "\'"),
-  read.csv("data/original/aian_female_incidence_2017.csv", quote = "\'")
+write.csv(state_poverty, "data/state_poverty.csv",
+  row.names = FALSE
 )
 
-race_data$Race[race_data$Race == "Asian/Pacific Islander"] <- "AAPI"
+# Race & Sex + State
+state_rs <- state %>%
+  filter(AREA %in% state.name == TRUE | AREA == "United States") %>%
+  mutate(RACE_SEX = paste0(RACE, ", ", SEX))
 
-write.csv(race_data, "data/race_data.csv", row.names = FALSE)
+sites <- unique(state_rs$SITE)
+
+write.csv(state_rs, "data/state_rs.csv", row.names = FALSE)
+write.csv(sites, "data/sites.csv", row.names = FALSE)
+
+# # child
+# child <- read.delim("data/USCS-1999-2017-ASCII/CHILDBYSITE.txt",
+#   header = TRUE, sep = "|"
+# ) %>%
+#   select(
+#     AGE, AGE_ADJUSTED_RATE, CRUDE_RATE, EVENT_TYPE, RACE, SEX, SITE, YEAR,
+#     COUNT, POPULATION
+#   )
+# 
+# child$AGE_ADJUSTED_RATE <- as.numeric(as.character(child$
+#   AGE_ADJUSTED_RATE))
+# child$CRUDE_RATE <- as.numeric(as.character(child$CRUDE_RATE))
+# child$COUNT <- as.numeric(as.character(child$COUNT))
+# child$POPULATION <- as.numeric(as.character(child$POPULATION))
+# 
+# write.csv(child, "data/child.csv", row.names = FALSE)

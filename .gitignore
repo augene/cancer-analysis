@@ -7,11 +7,13 @@
 
 # Original Data files (not processed)
 data/original
-data/county_data.csv
-data/state_data.csv
-prep_data.R
-prep_data2.R
+data/county.csv
+data/state.csv
+eda/prep_data.R
+eda/data
 data/USCS-1999-2017-ASCII
+
+workspace.code-workspace
 
 # DS_Store files
 .DS_Store
