@@ -8,6 +8,7 @@ sex_race <- tabPanel(
   "Sex and Race",
   sidebarLayout(
     sidebarPanel(
+      helpText("Filter using the chart legend on the right side."),
       selectInput(
         inputId = "rsStateInput", label = "State",
         choices = c("United States", state.name),
@@ -32,7 +33,8 @@ sex_race <- tabPanel(
       )
     ),
     mainPanel(
-      plotlyOutput("rs_chart")
+      plotlyOutput("rs_chart"),
+      tableOutput("rs_table")
     )
   )
 )
