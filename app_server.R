@@ -82,7 +82,7 @@ my_server <- function(input, output, session) {
         AGE_ADJUSTED_RATE
       ))) +
       labs(
-        title = "Percentage of Poverty vs. Age-Adjusted Incidence Rate",
+        title = "Percentage of Poverty vs. Age-Adjusted Rate",
         x = "Percentage of Poverty (2019)",
         y = "Age-Adjusted Rate (Average 2013-2017)"
       ),
