@@ -1,46 +1,51 @@
-state_rs_data <- read.csv("data/race_sex_state.csv")
-county_poverty_data <- read.csv("data/county_poverty_data.csv")
-
-child_data <- read.csv("data/child_data.csv") %>%
-  filter(AGE == "0-14" & EVENT_TYPE == "Incidence" & SEX == "Male and Female"
-  & RACE == "All Races" & YEAR != "2013-2017")
+state_rs <- read.csv("data/state_rs.csv")
+county_poverty <- read.csv("data/county_poverty.csv")
 
 my_server <- function(input, output, session) {
-  updateSelectInput(session, "childSiteInput",
-    choices = unique(child_data$SITE),
-    selected = "All Cancer Sites Combined"
-  )
-
   rs_reactive <- reactive({
-    state_rs_data %>%
-      filter(
-        AREA == input$rsStateInput,
-        SITE == input$rsSiteInput,
-        EVENT_TYPE == input$rsEventInput
-      ) %>%
-    pivot_wider(names_from = RACE_SEX, values_from = AGE_ADJUSTED_RATE)
+    req(input$rsChoiceInput)
+    if (input$rsChoiceInput == "Race") {
+      state_rs %>%
+        filter(
+          AREA == input$rsStateInput,
+          SITE == input$rsSiteInput,
+          YEAR >= input$rsYearInput[1],
+          YEAR <= input$rsYearInput[2],
+          EVENT_TYPE == input$rsEventInput
+        ) %>%
+        rename(COMPARISON = toupper(input$rsChoiceInput)) %>%
+        filter(SEX == "Male and Female") %>%
+        select(-SEX, -RACE_SEX)
+      } else if (input$rsChoiceInput == "Sex") {
+        state_rs %>%
+          filter(
+            AREA == input$rsStateInput,
+            SITE == input$rsSiteInput,
+            YEAR >= input$rsYearInput[1],
+            YEAR <= input$rsYearInput[2],
+            EVENT_TYPE == input$rsEventInput
+          ) %>%
+          rename(COMPARISON = toupper(input$rsChoiceInput)) %>%
+          filter(RACE == "All Races") %>%
+          select(-RACE, -RACE_SEX)
+      } else {
+        state_rs %>%
+          filter(
+            AREA == input$rsStateInput,
+            SITE == input$rsSiteInput,
+            YEAR >= input$rsYearInput[1],
+            YEAR <= input$rsYearInput[2],
+            EVENT_TYPE == input$rsEventInput
+          ) %>%
+          rename(COMPARISON = RACE_SEX) %>%
+          select(-RACE, -SEX)
+      }
   })
 
-  poverty_reactive <- reactive({
-    county_poverty_data %>%
-      filter(
-        STATE == state.abb[match(input$povertyStateInput, state.name)],
-        EVENT_TYPE == input$povertyEventInput
-      )
-  })
-
-  child_reactive <- reactive({
-    child_data %>%
-      filter(
-        SITE == input$childSiteInput,
-        YEAR >= input$childYearInput[1],
-        YEAR <= input$childYearInput[2]
-      )
-  })
-
-  output$rs_chart <- renderPlot({
+  output$rs_chart <- renderPlotly({
     ggplotly(
-      ggplot(rs_reactive(), aes(x = YEAR, y = AGE_ADJUSTED_RATE))) +
+      ggplot(rs_reactive(), aes(x = YEAR, y = AGE_ADJUSTED_RATE,
+                                color = COMPARISON)) +
       geom_line() +
       #   aes(text = paste0(
       #   "State = ", AREA, "</br></br>",
@@ -48,11 +53,20 @@ my_server <- function(input, output, session) {
       # )
       # )
       labs(
-        title = "Race",
-        x = "Percentage of Poverty (2019)",
-        y = "Age-Adjusted Rate (Average 2013-2017)"
-      )
+        title = "Change Over Time By Race and Sex",
+        x = "Year",
+        y = "Age-Adjusted Rate"
+      ))
     # , tooltip = "text" )
+  })
+
+  # poverty
+  poverty_reactive <- reactive({
+    county_poverty %>%
+      filter(
+        STATE == state.abb[match(input$povertyStateInput, state.name)],
+        EVENT_TYPE == input$povertyEventInput
+      )
   })
 
   output$poverty_chart <- renderPlotly({
@@ -86,21 +100,5 @@ my_server <- function(input, output, session) {
       arrange(-AGE_ADJUSTED_RATE)
 
     table
-  })
-
-  output$child_chart <- renderPlotly({
-    plot_ly(child_reactive(),
-      x = ~YEAR, y = ~AGE_ADJUSTED_RATE,
-      type = "scatter", mode = "lines"
-    ) %>%
-      layout(
-        title =
-          "Age-Adjusted Incidence Rate for Childhood Cancer Sites (1999-2017)",
-        xaxis = list(title = "Year"),
-        yaxis = list(
-          title =
-            "Age-Adjusted Incidence Rate (per 100,000)"
-        )
-      )
   })
 }

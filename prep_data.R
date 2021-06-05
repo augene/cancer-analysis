@@ -78,7 +78,12 @@ write.csv(state_poverty, "data/state_poverty.csv",
 # Race & Sex + State
 state_rs <- state %>%
   filter(AREA %in% state.name == TRUE | AREA == "United States") %>%
-  mutate(RACE_SEX = paste0(RACE, ", ", SEX))
+  filter(YEAR != "2013-2017") %>%
+  mutate(RACE_SEX = paste0(RACE, ", ", SEX)) %>%
+  drop_na(AGE_ADJUSTED_RATE) %>%
+  select(AREA, AGE_ADJUSTED_RATE, EVENT_TYPE, RACE, SEX, SITE, YEAR, RACE_SEX)
+
+state_rs$YEAR <- as.numeric(state_rs$YEAR)
 
 sites <- unique(state_rs$SITE)
 
