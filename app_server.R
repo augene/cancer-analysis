@@ -16,47 +16,50 @@ my_server <- function(input, output, session) {
         rename(COMPARISON = toupper(input$rsChoiceInput)) %>%
         filter(SEX == "Male and Female") %>%
         select(-SEX, -RACE_SEX)
-      } else if (input$rsChoiceInput == "Sex") {
-        state_rs %>%
-          filter(
-            AREA == input$rsStateInput,
-            SITE == input$rsSiteInput,
-            YEAR >= input$rsYearInput[1],
-            YEAR <= input$rsYearInput[2],
-            EVENT_TYPE == input$rsEventInput
-          ) %>%
-          rename(COMPARISON = toupper(input$rsChoiceInput)) %>%
-          filter(RACE == "All Races") %>%
-          select(-RACE, -RACE_SEX)
-      } else {
-        state_rs %>%
-          filter(
-            AREA == input$rsStateInput,
-            SITE == input$rsSiteInput,
-            YEAR >= input$rsYearInput[1],
-            YEAR <= input$rsYearInput[2],
-            EVENT_TYPE == input$rsEventInput
-          ) %>%
-          rename(COMPARISON = RACE_SEX) %>%
-          select(-RACE, -SEX)
-      }
+    } else if (input$rsChoiceInput == "Sex") {
+      state_rs %>%
+        filter(
+          AREA == input$rsStateInput,
+          SITE == input$rsSiteInput,
+          YEAR >= input$rsYearInput[1],
+          YEAR <= input$rsYearInput[2],
+          EVENT_TYPE == input$rsEventInput
+        ) %>%
+        rename(COMPARISON = toupper(input$rsChoiceInput)) %>%
+        filter(RACE == "All Races") %>%
+        select(-RACE, -RACE_SEX)
+    } else {
+      state_rs %>%
+        filter(
+          AREA == input$rsStateInput,
+          SITE == input$rsSiteInput,
+          YEAR >= input$rsYearInput[1],
+          YEAR <= input$rsYearInput[2],
+          EVENT_TYPE == input$rsEventInput
+        ) %>%
+        rename(COMPARISON = RACE_SEX) %>%
+        select(-RACE, -SEX)
+    }
   })
 
   output$rs_chart <- renderPlotly({
     ggplotly(
-      ggplot(rs_reactive(), aes(x = YEAR, y = AGE_ADJUSTED_RATE,
-                                color = COMPARISON)) +
-      geom_line() +
-      #   aes(text = paste0(
-      #   "State = ", AREA, "</br></br>",
-      #   "Age-Adjusted Incidence Rate = ", AGE_ADJUSTED_RATE
-      # )
-      # )
-      labs(
-        title = "Change Over Time By Race and Sex",
-        x = "Year",
-        y = "Age-Adjusted Rate"
-      ))
+      ggplot(rs_reactive(), aes(
+        x = YEAR, y = AGE_ADJUSTED_RATE,
+        color = COMPARISON
+      )) +
+        geom_line() +
+        #   aes(text = paste0(
+        #   "State = ", AREA, "</br></br>",
+        #   "Age-Adjusted Incidence Rate = ", AGE_ADJUSTED_RATE
+        # )
+        # )
+        labs(
+          title = "Change Over Time By Race and Sex",
+          x = "Year",
+          y = "Age-Adjusted Rate"
+        )
+    )
     # , tooltip = "text" )
   })
 
@@ -73,9 +76,9 @@ my_server <- function(input, output, session) {
     ggplotly(ggplot(poverty_reactive(), aes(
       x = POVERTY_PCT,
       y = AGE_ADJUSTED_RATE,
-      size = COUNT, color = STATE
+      size = COUNT
     )) +
-      geom_point(aes(text = paste0(
+      geom_point(color = "#8fd1c4", aes(text = paste0(
         "Area = ", AREA, ", ", STATE, "</br></br>",
         "Percentage of Poverty = ", POVERTY_PCT, "%",
         "</br>", "Age-Adjusted Incidence Rate = ",

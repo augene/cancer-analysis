@@ -39,8 +39,10 @@ county$POPULATION <- as.numeric(as.character(county$POPULATION))
 write.csv(county, "data/county.csv", row.names = FALSE)
 
 ### Poverty
-poverty <- read_excel("data/original/PovertyEstimates.xls", sheet = 1,
-                      skip = 4) %>%
+poverty <- read_excel("data/original/PovertyEstimates.xls",
+  sheet = 1,
+  skip = 4
+) %>%
   select(Stabr, Area_name, PCTPOVALL_2019)
 
 write.csv(poverty, "data/poverty.csv", row.names = FALSE)
@@ -52,9 +54,10 @@ county_poverty <- county %>%
     SITE == "All Cancer Sites Combined") %>%
   select(STATE, AREA, AGE_ADJUSTED_RATE, COUNT, POPULATION, EVENT_TYPE) %>%
   merge(poverty %>%
-  filter(Area_name %in% state.name == FALSE & Area_name != "United States") %>%
-          rename(STATE = Stabr, AREA = Area_name, POVERTY_PCT = PCTPOVALL_2019),
-        by = c("STATE", "AREA"))
+    filter(Area_name %in% state.name == FALSE & Area_name != "United States") %>%
+    rename(STATE = Stabr, AREA = Area_name, POVERTY_PCT = PCTPOVALL_2019),
+  by = c("STATE", "AREA")
+  )
 
 write.csv(county_poverty, "data/county_poverty.csv", row.names = FALSE)
 
@@ -65,10 +68,10 @@ state_poverty <- poverty %>%
   rename(AREA = Area_name, POVERTY_PCT = PCTPOVALL_2019)
 
 state_poverty <- merge(state_poverty, state %>%
-                  filter(RACE == "All Races" & SEX == "Male and Female" &
-                         SITE == "All Cancer Sites Combined" & YEAR == 2017) %>%
-                select(AREA, AGE_ADJUSTED_RATE, COUNT, POPULATION, EVENT_TYPE),
-  by = c("AREA")
+  filter(RACE == "All Races" & SEX == "Male and Female" &
+    SITE == "All Cancer Sites Combined" & YEAR == 2017) %>%
+  select(AREA, AGE_ADJUSTED_RATE, COUNT, POPULATION, EVENT_TYPE),
+by = c("AREA")
 )
 
 write.csv(state_poverty, "data/state_poverty.csv",
@@ -83,8 +86,6 @@ state_rs <- state %>%
   drop_na(AGE_ADJUSTED_RATE) %>%
   select(AREA, AGE_ADJUSTED_RATE, EVENT_TYPE, RACE, SEX, SITE, YEAR, RACE_SEX)
 
-state_rs$YEAR <- as.numeric(state_rs$YEAR)
-
 sites <- unique(state_rs$SITE)
 
 write.csv(state_rs, "data/state_rs.csv", row.names = FALSE)
@@ -98,11 +99,11 @@ write.csv(sites, "data/sites.csv", row.names = FALSE)
 #     AGE, AGE_ADJUSTED_RATE, CRUDE_RATE, EVENT_TYPE, RACE, SEX, SITE, YEAR,
 #     COUNT, POPULATION
 #   )
-# 
+#
 # child$AGE_ADJUSTED_RATE <- as.numeric(as.character(child$
 #   AGE_ADJUSTED_RATE))
 # child$CRUDE_RATE <- as.numeric(as.character(child$CRUDE_RATE))
 # child$COUNT <- as.numeric(as.character(child$COUNT))
 # child$POPULATION <- as.numeric(as.character(child$POPULATION))
-# 
+#
 # write.csv(child, "data/child.csv", row.names = FALSE)
