@@ -2,6 +2,7 @@ state_rs <- read.csv("data/state_rs.csv")
 county_poverty <- read.csv("data/county_poverty.csv")
 
 my_server <- function(input, output) {
+  # race + sex
   rs_reactive <- reactive({
     req(input$rsChoiceInput)
     if (input$rsChoiceInput == "Race") {
@@ -69,24 +70,23 @@ my_server <- function(input, output) {
   })
 
   output$poverty_chart <- renderPlotly({
-    validate(need(nrow(poverty_reactive()) > 0, "Select at least one state."))
+    validate(need(nrow(poverty_reactive()) > 0, "No data available."))
     ggplotly(ggplot(poverty_reactive(), aes(
       x = POVERTY_PCT,
       y = AGE_ADJUSTED_RATE,
       size = COUNT
     )) +
       geom_point(color = "#8fd1c4", aes(text = paste0(
-        "Area = ", COUNTY, ", ", STATE, "</br></br>",
-        "Percentage of Poverty = ", POVERTY_PCT, "%",
-        "</br>", "Age-Adjusted Incidence Rate = ",
-        AGE_ADJUSTED_RATE
+        "County: ", COUNTY, ", ", STATE, "</br></br>",
+        "Percentage of Population in Poverty: ", POVERTY_PCT, "%", "</br>",
+        "Age-Adjusted Rate: ", AGE_ADJUSTED_RATE, "</br>",
+        "Cases: ", COUNT
       ))) +
       labs(
         title = "Percentage of Poverty vs. Age-Adjusted Rate",
-        x = "Percentage of Poverty (2019)",
+        x = "Percentage of Population in Poverty (2017)",
         y = "Age-Adjusted Rate (Average 2013-2017)"
-      ),
-    tooltip = "text"
-    )
+      ), tooltip = "text")
   })
+  
 }
