@@ -53,28 +53,29 @@ map_base <- ggplot(data = county_income_map,
         panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
         plot.background=element_blank())
 
-# bivariate_color_scale <- bivariate_color_scale %>%
-#   separate(fill_group, into = c("rate", "income"), sep = " - ") %>%
-#   mutate(rate = as.integer(rate),
-#          income = as.integer(income))
+bivariate_color_scale_leg <- bivariate_color_scale %>%
+  separate(fill_group, into = c("rate", "income"), sep = " - ") %>%
+  mutate(rate = as.integer(rate),
+         income = as.integer(income))
 
-# legend <- ggplot() +
-#   geom_tile(
-#     data = bivariate_color_scale,
-#     mapping = aes(
-#       x = rate,
-#       y = income,
-#       fill = fill)
-#   ) +
-#   scale_fill_identity() +
-#   labs(x = "Higher age-adjusted rate ⟶️",
-#        y = "Higher income ⟶️") +
-#   # make font small enough
-#   theme(
-#     axis.title = element_text(size = 6)
-#   ) +
-#   # quadratic tiles
-#   coord_fixed()
+legend <- ggplot() +
+  geom_tile(
+    data = bivariate_color_scale_leg,
+    mapping = aes(
+      x = rate,
+      y = income,
+      fill = fill)
+  ) +
+  scale_fill_identity() +
+  labs(x = "Higher age-adjusted rate ⟶️",
+       y = "Higher income ⟶️") +
+  theme(axis.line=element_blank(),axis.text.x=element_blank(),
+          axis.text.y=element_blank(),axis.ticks=element_blank(),legend.position="none",
+          panel.background=element_blank(),panel.border=element_blank(),
+          panel.grid.major=element_blank(),panel.grid.minor=element_blank(),
+          plot.background=element_blank(),axis.title = element_text(size = 14)) +
+  # quadratic tiles
+  coord_fixed()
 map <- ggplotly(map_base + geom_polygon(
   data = county_income_map, aes(x = long, y = lat, group = group,
                                 fill = hex_code),

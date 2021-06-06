@@ -50,7 +50,9 @@ map <- tabPanel(
         inputId = "mapEventInput", label = "Type",
         choices = c("Incidence", "Mortality"),
         selected = "Mortality"
-      )
+      ),
+      img(src = "legend.jpg",
+           height = "100%", width = "100%")
     ),
     mainPanel(
       plotlyOutput("map")

@@ -61,12 +61,6 @@ my_server <- function(input, output) {
     map_final <- ggplotly(map_base + geom_polygon(
       data = map_reactive(), aes(x = long, y = lat, group = group,
                                  fill = hex_code),
-      #  text = paste0("County: ", COUNTY, ", ", STATE,
-      #                  "</br></br>",
-      #                  "Age-Adjusted Rate: ",
-      #                  AGE_ADJUSTED_RATE, "</br>",
-      #                  "Median Household Income: ",
-      #                  MED_INCOME)),
       color = "white", size = .1
     ) +
       scale_fill_identity() +
