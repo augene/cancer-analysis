@@ -41,6 +41,23 @@ intro <- tabPanel(
   )
 )
 
+map <- tabPanel(
+  "Map",
+  sidebarLayout(
+    sidebarPanel(
+      helpText("Maps take quite long to load; thank you for your patience!"),
+      radioButtons(
+        inputId = "mapEventInput", label = "Type",
+        choices = c("Incidence", "Mortality"),
+        selected = "Mortality"
+      )
+    ),
+    mainPanel(
+      plotlyOutput("map")
+    )
+  )
+)
+
 sex_race <- tabPanel(
   "Sex and Race",
   sidebarLayout(
@@ -124,22 +141,10 @@ poverty <- tabPanel(
   )
 )
 
-# child <- tabPanel(
-#   "Childhood Cancer",
-#   sidebarLayout(
-#     sidebarPanel(
-#       selectInput(inputId = "childSiteInput", label = "Cancer Site",
-#                   choices = NULL, selected = NULL),
-#       sliderInput(inputId = "childYearInput", label = "Year", min = 1999,
-#                   max = 2017, value = c(1999, 2017), sep = "")),
-#     mainPanel(
-#       plotlyOutput("child_chart")
-#     )))
-
-
 my_ui <- navbarPage(
   "Effects of Socioeconomic Factors on Cancer Incidence and Mortality",
   intro,
+  map,
   sex_race,
   poverty,
   fluid = TRUE

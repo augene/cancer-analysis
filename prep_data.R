@@ -2,7 +2,8 @@ library("dplyr")
 library("readxl")
 library("stringr")
 library("tidyr")
-library("ggmap")
+library("ggplot2")
+library("maps")
 
 # State
 state <- read.delim("data/original/USCS-1999-2017-ASCII/BYAREA.txt",
@@ -90,19 +91,7 @@ county_poverty <- county %>%
 
 write.csv(county_poverty, "data/county_poverty.csv", row.names = FALSE)
 
-# State + Med HH Income Map
-state_medhh_income <- economic %>%
-  select(AREA, MED_INCOME) %>%
-  filter(AREA %in% state.name == TRUE | AREA == "United States") %>%
-  rename(STATE = AREA) %>%
-  merge(state %>%
-    filter(RACE == "All Races" & SEX == "Male and Female" &
-      SITE == "All Cancer Sites Combined" & YEAR == 2017) %>%
-    select(STATE, AGE_ADJUSTED_RATE, COUNT, EVENT_TYPE),
-  by = c("STATE"))
-
-write.csv(state_medhh_income, "data/state_medhh_income.csv", row.names = FALSE)
-
+# County + Med HH Income Map
 data(county.fips)
 map_data_county <- map_data("county") %>%
   mutate(polyname = paste(region,subregion,sep=",")) %>%
@@ -123,24 +112,5 @@ county_medhh_income <- economic %>%
 county_medhh_income$fips <- as.numeric(as.character(county_medhh_income$fips))
 county_medhh_income_map <- inner_join(county_medhh_income, map_data_county,
                                       by = "fips")
-
-write.csv(state_medhh_income, "data/state_medhh_income.csv", row.names = FALSE)
 write.csv(county_medhh_income_map, "data/county_medhh_income_map.csv",
           row.names = FALSE)
-
-# # child
-# child <- read.delim("data/USCS-1999-2017-ASCII/CHILDBYSITE.txt",
-#   header = TRUE, sep = "|"
-# ) %>%
-#   select(
-#     AGE, AGE_ADJUSTED_RATE, CRUDE_RATE, EVENT_TYPE, RACE, SEX, SITE, YEAR,
-#     COUNT, POPULATION
-#   )
-#
-# child$AGE_ADJUSTED_RATE <- as.numeric(as.character(child$
-#   AGE_ADJUSTED_RATE))
-# child$CRUDE_RATE <- as.numeric(as.character(child$CRUDE_RATE))
-# child$COUNT <- as.numeric(as.character(child$COUNT))
-# child$POPULATION <- as.numeric(as.character(child$POPULATION))
-#
-# write.csv(child, "data/child.csv", row.names = FALSE)

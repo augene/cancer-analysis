@@ -7,11 +7,9 @@
 
 # Original Data files (not processed)
 data/original
-data/county.csv
-data/state.csv
+map_test.R
 eda/prep_data.R
 eda/data
-data/USCS-1999-2017-ASCII
 
 workspace.code-workspace
 
