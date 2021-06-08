@@ -45,7 +45,9 @@ map <- tabPanel(
   "Map",
   sidebarLayout(
     sidebarPanel(
-      helpText("Maps take quite long to load; thank you for your patience!"),
+      helpText("Maps take quite long to load; we intentionally left county 
+               names out because it takes ~3min to load. 
+               Thank you for your patience!"),
       radioButtons(
         inputId = "mapEventInput", label = "Type",
         choices = c("Incidence", "Mortality"),
