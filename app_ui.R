@@ -1,3 +1,8 @@
+library("dplyr")
+library("tidyr")
+library("shiny")
+library("plotly")
+
 sites <- read.csv("data/sites.csv")
 
 intro <- tabPanel(
@@ -57,7 +62,15 @@ map <- tabPanel(
            height = "100%", width = "100%")
     ),
     mainPanel(
-      plotlyOutput("map")
+      plotlyOutput("map"),
+      h1("Insights"),
+      p("A major geographical trend is that Southern states such as Arkansas, Alabama, Mississippi, and Georgia tend to have a lower income and lower
+        mortality rate. For these states, the same trend is true for incidence rates. In contrast, states in the Pacific Northwest tend to have higher
+        income but lower incidence and mortality."),
+      
+      p("Another noticeable trend is that high density populations areas and metropolitan cities have a higher income and higher incidence and mortality
+        rates. A possible explanation for this may be due to the fact that higher density cities have bigger hospitals that serve more patients which in 
+        effect would result in more cases of both incidence and mortality within these cities.")
     )
   )
 )
@@ -145,11 +158,12 @@ poverty <- tabPanel(
   )
 )
 
-my_ui <- navbarPage(
-  "Effects of Socioeconomic Factors on Cancer Incidence and Mortality",
-  intro,
-  map,
-  sex_race,
-  poverty,
-  fluid = TRUE
+my_ui <- fluidPage(
+  navbarPage(
+    "Effects of Socioeconomic Factors on Cancer Incidence and Mortality",
+    intro,
+    map,
+    sex_race,
+    poverty
+  )
 )
